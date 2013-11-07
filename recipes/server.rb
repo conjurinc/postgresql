@@ -32,10 +32,7 @@ if Chef::Config[:solo]
   end.map { |attr| "node['postgresql']['password']['#{attr}']" }
 
   if !missing_attrs.empty?
-    Chef::Application.fatal!([
-        "You must set #{missing_attrs.join(', ')} in chef-solo mode.",
-        "For more information, see https://github.com/opscode-cookbooks/postgresql#chef-solo-note"
-      ].join(' '))
+    Chef::Log.warn 'No database password given for postgres user. Only peer auth will be possible'
   end
 else
   # TODO: The "secure_password" is randomly generated plain text, so it
