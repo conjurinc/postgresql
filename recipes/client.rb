@@ -19,17 +19,7 @@
 # limitations under the License.
 #
 
-if node['postgresql']['version'].to_f > 9.1 && platform_family?('ubuntu', 'debian')
-  node.default['postgresql']['enable_pgdg_apt'] = true
-end
-
-if(node['postgresql']['enable_pgdg_apt'])
-  include_recipe 'postgresql::apt_pgdg_postgresql'
-end
-
-if(node['postgresql']['enable_pgdg_yum'])
-  include_recipe 'postgresql::yum_pgdg_postgresql'
-end
+include_recipe 'postgresql::attributes'
 
 node['postgresql']['client']['packages'].each do |pg_pack|
 
