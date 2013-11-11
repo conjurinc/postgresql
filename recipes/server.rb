@@ -43,7 +43,7 @@ else
   # retrieval.
   node.set_unless['postgresql']['password']['postgres'] = secure_password
   node.save
-end
+end unless node['postgresql']['passwordless']
 
 # Include the right "family" recipe for installing the server
 # since they do things slightly differently.
@@ -84,4 +84,4 @@ bash "assign-postgres-password" do
 echo "ALTER ROLE postgres ENCRYPTED PASSWORD '#{node['postgresql']['password']['postgres']}';" | psql
   EOH
   action :run
-end
+end if node['postgresql']['password']['postgres']
